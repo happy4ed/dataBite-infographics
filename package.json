@@ -1,0 +1,8 @@
+{
+  "name": "databite-infographic",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Data Bite weekly deck HTML to a one-page infographic (fixed house style).",
+  "type": "module",
+  "dependencies": { "playwright": "^1.47.0" }
+}

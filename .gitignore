@@ -1,0 +1,5 @@
+node_modules/
+.jobs.json
+jobs.json
+*.log
+__pycache__/

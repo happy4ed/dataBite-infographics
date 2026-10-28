@@ -1,0 +1,57 @@
+{
+  "week": "01",
+  "period": "2026 · 1/5 ~ 1/9",
+  "items": [
+    {
+      "id": "01",
+      "source_title": "수면 점수 편차 불만이 절반, 워치 수면 VOC 1위",
+      "kicker": "워치 수면 · VOC",
+      "hero": { "kind": "num", "value": "48", "unit": "%" },
+      "title": "수면 점수가 들쭉날쭉하다는\n불만이 가장 많다",
+      "chart": { "type": "bars", "rows": [["점수 편차", 48], ["기록 누락", 22], ["배터리 소모", 18], ["알림 과다", 12]], "unit": "%", "highlight": 0 },
+      "chips": ["1,240건"],
+      "illust": { "kind": "device", "subject": "a smartwatch on a bedside table at night showing a sleep chart with an uneven jagged line, a small crescent moon nearby" }
+    },
+    {
+      "id": "02",
+      "source_title": "홈 화면 위젯 사용자 3명 중 1명, 연휴 뒤 반등",
+      "kicker": "홈 화면 위젯 · 사용 로그",
+      "hero": { "kind": "num", "value": "33.4", "unit": "%" },
+      "title": "위젯 쓰는 사람이\n연휴 뒤 다시 늘었다",
+      "chart": { "type": "line", "x": ["11-10", "11-17", "11-24", "12-01", "12-08", "12-15", "12-22", "12-29", "01-05"], "y": [31.2, 31.8, 32.0, 31.5, 30.9, 30.2, 29.6, 29.1, 33.4], "unit": "%", "labels": [{ "i": 8, "text": "01-05 주" }, { "i": 7, "text": "12-29 주 저점" }] },
+      "chips": [],
+      "illust": { "kind": "app", "subject": "a smartphone home screen with a few colorful square widgets, one widget being dragged into place by a fingertip" }
+    },
+    {
+      "id": "03",
+      "source_title": "오프라인 결제는 여전히 카드 태깅이 1위",
+      "kicker": "오프라인 결제 · 설문",
+      "hero": { "kind": "num", "value": "41", "unit": "%" },
+      "title": "가게에서는 아직\n카드를 대는 사람이 제일 많다",
+      "chart": { "type": "bars", "rows": [["카드 태깅", 41], ["간편결제 앱", 35], ["현금", 14], ["워치 결제", 6], ["기타", 4]], "unit": "%", "highlight": 0 },
+      "chips": ["n=1,200"],
+      "illust": { "kind": "symbol", "subject": "a hand tapping a plain payment card on a small card terminal on a shop counter" }
+    },
+    {
+      "id": "04",
+      "source_title": "화면 낭독 순서가 바뀌면 길을 잃는다, 접근성 인터뷰",
+      "kicker": "접근성 · 인터뷰",
+      "hero": { "kind": "keyword", "text": "낭독 순서" },
+      "title": "업데이트로 읽는 순서가 바뀌면\n익힌 길을 다시 외워야 한다",
+      "chart": { "type": "none" },
+      "chips": ["저시력 8명", "진동 안내 호평"],
+      "illust": { "kind": "symbol", "subject": "a smartphone with sound waves coming from its speaker and a winding dotted path across the screen" }
+    },
+    {
+      "id": "05",
+      "source_title": "폴더블 큰 화면, 앱 꽉 채움 비율 1년 새 상승",
+      "kicker": "폴더블 · 사용 로그",
+      "hero": { "kind": "num", "value": "68", "unit": "%" },
+      "title": "큰 화면을 꽉 채워\n앱을 여는 사람이 늘었다",
+      "chart": { "type": "dumbbell", "groups": [["전체", [52, 68], [31, 37]], ["30대 이하", [58, 74], [36, 44]]], "metrics": ["앱 꽉 채움", "분할 화면"], "before": "2025", "after": "2026", "unit": "%" },
+      "chips": [],
+      "illust": { "kind": "device", "subject": "an open foldable phone held in two hands, the large inner screen filled edge to edge with a map app" }
+    }
+  ],
+  "notes": "가상 예시. 04 는 타이틀을 받치는 숫자가 없어(인터뷰 인원은 근거 아님) 핵심 키워드로."
+}

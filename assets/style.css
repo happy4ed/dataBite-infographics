@@ -1,0 +1,89 @@
+/* Data Bite 인포그래픽 — 견본(v1 4판) 고정 스타일. 글자 크기 · 색 · 간격은 바꾸지 않는다. 캔버스 길이만 내용에 따라 늘고 준다. */
+:root { --sans: "Noto Sans KR", system-ui, sans-serif; --numf: "Anton", "Noto Sans KR", sans-serif;
+  --paper: #F5EBDA; --ink: #1C1B1A; --ink2: #57534C; --hair: #CFC4AE; --key: #C8401C; --key-d: #A8330F; --acc2: #27489C;
+  --bar: #B9AE98; --bar2: #D9CFBC; --track: rgba(28,27,26,.07); }
+html, body { margin: 0; background: #DCD6CB; }
+body { padding: 8px 0; }
+.sheet { box-sizing: border-box; width: 210mm; margin: 0 auto; padding: 9mm 10mm 7mm; background: var(--paper); color: var(--ink); font-family: var(--sans);
+  word-break: keep-all; overflow-wrap: break-word; box-shadow: 0 2px 18px rgba(0,0,0,.18); display: flex; flex-direction: column; }
+/* 머리 */
+.mast { height: 31mm; box-sizing: border-box; border-bottom: .9mm solid var(--ink); display: grid; grid-template-columns: 1fr auto; align-items: end; }
+.mast .m1 { display: grid; padding-bottom: 1.6mm; }
+.mast .kicker { font: 500 2.7mm/1 var(--sans); letter-spacing: .32em; color: var(--ink2); }
+.mast .wdb { font: 400 14.5mm/1 var(--numf); text-transform: uppercase; letter-spacing: .01em; margin-top: 1mm; }
+.mast .m2 { display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 4mm; align-items: end; padding-bottom: 1.6mm; }
+.mast .wk { grid-row: 1 / 3; font: 400 24.4mm/.82 var(--numf); color: var(--key); }
+.mast .wk small { font: 700 6.6mm/1 var(--sans); margin-left: .6mm; color: var(--ink); }
+.mast .logo { width: 32mm; height: auto; justify-self: end; margin-bottom: 1.4mm; }
+.mast .mdate { font: 500 3mm/1.35 var(--sans); color: var(--ink2); text-align: right; white-space: nowrap; }
+/* 본문 = 줄(row) 쌓기. 줄 높이는 내용이 정한다 */
+.body { margin-top: 4mm; }
+.row { display: grid; column-gap: 5mm; border-top: .45mm solid var(--ink); }
+.row:first-child { border-top: 0; }
+.blk { position: relative; min-width: 0; padding: 3mm 0 4mm; }
+.kk { font: 600 2.45mm/1.35 var(--sans); letter-spacing: .14em; color: var(--key-d); text-transform: uppercase; margin-bottom: 3.2mm; }
+.kk .kn { margin-right: 2.2mm; }
+.num { font: 400 14mm/.9 var(--numf); white-space: nowrap; }
+.num .u { font-size: .48em; margin-left: .3mm; vertical-align: .62em; }
+.num .u.pre { margin: 0 .4mm 0 0; }
+.num .sg { font: 600 .7em/1 var(--sans); vertical-align: .08em; margin-right: .4mm; }
+.kw { font: 700 7.6mm/1.15 var(--sans); letter-spacing: -.03em; }
+.blk h2 { margin: 2mm 0 0; font: 700 4.5mm/1.32 var(--sans); letter-spacing: -.01em; }
+.chips { list-style: none; margin: 2.4mm 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.2mm 1.4mm; font: 400 2.9mm/1 var(--sans); }
+.chips li { border: .2mm solid var(--ink); padding: .8mm 1.4mm; border-radius: 3mm; }
+.ill { display: block; mix-blend-mode: multiply; height: auto; }
+/* 두 칸 줄: 그림은 오른쪽 위에 띄우고 글이 둘러 흐름, 차트는 아래 */
+.half .ill { float: right; width: var(--illw); margin: -1mm -2mm 1mm 2mm; transform: rotate(var(--rot)); }
+.half .viz { clear: both; padding-top: 3mm; }
+/* 한 칸 줄(띠): 글 | 차트 | 그림 */
+.full { display: grid; grid-template-columns: 64mm minmax(0, 1fr) var(--illw); column-gap: 6mm; align-items: center; }
+.full.nochart { grid-template-columns: minmax(0, 1fr) var(--illw); }
+.full .ill { width: 100%; transform: rotate(var(--rot)); }
+.full .lead { align-self: start; }
+/* 막대 */
+.bars { display: grid; gap: 1.6mm; font: 400 2.9mm/1.15 var(--sans); }
+.br { display: grid; grid-template-columns: var(--bl) minmax(0, 1fr) var(--bvw); gap: 1.6mm; align-items: center; }
+.bl { overflow-wrap: normal; }
+.bt { height: 2.8mm; background: var(--track); } .bt i { display: block; height: 100%; background: var(--bar); }
+.br.hi .bt i { background: var(--key); } .br.hi .bl, .br.hi .bv { font-weight: 700; }
+.bv { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bars.stk .br { grid-template-columns: minmax(0, 1fr) var(--bvw); grid-template-areas: "l v" "t t"; row-gap: .5mm; }
+.bars.stk .bl { grid-area: l; } .bars.stk .bv { grid-area: v; } .bars.stk .bt { grid-area: t; height: 2.2mm; }
+.multi { display: grid; grid-template-columns: repeat(var(--k), minmax(0, 1fr)); column-gap: 7mm; align-items: start; }
+.ct { margin: 0 0 1.8mm; font: 700 3mm/1.2 var(--sans); }
+/* 선 그래프(viewBox 100 폭 · 최대 100mm) */
+.cl { width: 100%; max-width: 100mm; height: auto; display: block; overflow: visible; }
+.cl .ax { stroke: var(--ink); stroke-width: .25; } .cl .tk { stroke: var(--ink); stroke-width: .2; }
+.cl .t { font: 400 3.2px var(--sans); fill: var(--ink2); }
+.cl .ar { fill: var(--key); fill-opacity: .14; } .cl .ln { fill: none; stroke: var(--key); stroke-width: .55; stroke-linejoin: round; } .cl .pk { fill: var(--key); }
+.cl .lb { font: 500 3.2px var(--sans); fill: var(--ink); } .cl .lb .b { font: 400 4.4px var(--numf); fill: var(--key-d); } .cl .lb.s { fill: var(--ink2); }
+/* 점 배열 */
+.wafw { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3mm; align-items: start; }
+.waf { display: grid; grid-template-columns: repeat(10, 2mm); gap: .56mm; }
+.waf i { width: 2mm; height: 2mm; border-radius: 50%; background: var(--track); }
+.waf i.p0 { background: var(--key); } .waf i.p1 { background: var(--bar); } .waf i.p2 { background: var(--bar2); }
+.lg { margin: 0; font: 400 2.8mm/1.7 var(--sans); color: var(--ink2); }
+.lg i { display: inline-block; width: 1.9mm; height: 1.9mm; border-radius: 50%; vertical-align: -.1mm; margin-right: .8mm; }
+.lg .p0 { background: var(--key); } .lg .p1 { background: var(--bar); } .lg .p2 { background: var(--bar2); }
+/* 전후 비교 */
+.dumb { font: 400 2.9mm/1 var(--sans); max-width: 96mm; }
+.dh, .dr { display: grid; grid-template-columns: 18mm minmax(0, 1fr) 22mm; gap: 1.6mm; align-items: center; }
+.dh { grid-template-columns: 18mm 1fr 1fr 22mm; color: var(--ink2); font-size: 2.5mm; } .dh .m { text-align: center; } .dh .e { text-align: right; }
+.dr { margin-top: 2mm; } .dl { font-weight: 500; }
+.dtk { position: relative; height: 6.2mm; border-left: .2mm solid var(--hair); background: linear-gradient(90deg, transparent 49.8%, var(--hair) 49.8% 50.2%, transparent 50.2%); }
+.dtk .ln { position: absolute; height: .45mm; } .dtk .ln.a { top: 28%; background: var(--bar); } .dtk .ln.c { top: 72%; background: var(--key); }
+.dtk i { position: absolute; width: 2.1mm; height: 2.1mm; border-radius: 50%; margin: -1.05mm 0 0 -1.05mm; box-sizing: border-box; }
+.dtk i.a { top: 28%; } .dtk i.c { top: 72%; } .dtk i.o { background: var(--paper); border: .3mm solid var(--ink2); } .dtk i.f.a { background: var(--ink2); } .dtk i.f.c { background: var(--key); }
+.dv { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; } .dv em { font-style: normal; } .dv .a { color: var(--ink2); } .dv .c { color: var(--key-d); font-weight: 700; }
+.dk { margin-top: 2mm; font-size: 2.6mm; color: var(--ink2); display: flex; flex-wrap: wrap; gap: .6mm 2.4mm; }
+.dk span::before { content: ""; display: inline-block; width: 3mm; height: .6mm; margin-right: .8mm; vertical-align: .4mm; }
+.dk .a::before { background: var(--bar); } .dk .c::before { background: var(--key); } .dk .x::before { display: none; }
+/* 구성 막대 */
+.stack { display: flex; height: 5mm; width: 100%; } .stack i { display: block; height: 100%; }
+.stack i.p0 { background: var(--key); } .stack i.p1 { background: var(--bar); } .stack i.p2 { background: var(--bar2); } .stack i.p3 { background: var(--ink2); } .stack i.p4 { background: var(--hair); }
+.stl { margin-top: 1.6mm; display: flex; flex-wrap: wrap; gap: 1mm 3mm; font: 400 2.8mm/1.3 var(--sans); color: var(--ink2); }
+.stl i { display: inline-block; width: 2mm; height: 2mm; margin-right: .8mm; vertical-align: -.1mm; } .stl b { color: var(--ink); }
+/* 바닥 */
+.foot { margin-top: auto; padding-top: 1.6mm; border-top: .3mm solid var(--ink); display: flex; justify-content: flex-end; font: 600 2.4mm/1 var(--sans); letter-spacing: .06em; }
+.body + .foot { margin-top: 2mm; }
+@media print { html, body { background: none; padding: 0; } .sheet { box-shadow: none; zoom: 1 !important; } }
