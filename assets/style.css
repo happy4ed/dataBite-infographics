@@ -10,9 +10,9 @@ body { padding: 8px 0; }
 .mast { height: 31mm; box-sizing: border-box; border-bottom: .9mm solid var(--ink); display: grid; grid-template-columns: 1fr auto; align-items: end; }
 .mast .m1 { display: grid; padding-bottom: 1.6mm; }
 .mast .kicker { font: 500 2.7mm/1 var(--sans); letter-spacing: .32em; color: var(--ink2); }
-.mast .wdb { font: 400 14.5mm/1 var(--numf); text-transform: uppercase; letter-spacing: .01em; margin-top: 1mm; }
+.mast .wdb { font: var(--numw, 400) 14.5mm/1 var(--numf); text-transform: uppercase; letter-spacing: .01em; margin-top: 1mm; }
 .mast .m2 { display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 4mm; align-items: end; padding-bottom: 1.6mm; }
-.mast .wk { grid-row: 1 / 3; font: 400 24.4mm/.82 var(--numf); color: var(--key); }
+.mast .wk { grid-row: 1 / 3; font: var(--numw, 400) 24.4mm/.82 var(--numf); color: var(--key); }
 .mast .wk small { font: 700 6.6mm/1 var(--sans); margin-left: .6mm; color: var(--ink); }
 .mast .logo { width: 32mm; height: auto; justify-self: end; margin-bottom: 1.4mm; }
 .mast .mdate { font: 500 3mm/1.35 var(--sans); color: var(--ink2); text-align: right; white-space: nowrap; }
@@ -23,7 +23,7 @@ body { padding: 8px 0; }
 .blk { position: relative; min-width: 0; padding: 3mm 0 4mm; }
 .kk { font: 600 2.45mm/1.35 var(--sans); letter-spacing: .14em; color: var(--key-d); text-transform: uppercase; margin-bottom: 3.2mm; }
 .kk .kn { margin-right: 2.2mm; }
-.num { font: 400 14mm/.9 var(--numf); white-space: nowrap; }
+.num { font: var(--numw, 400) 14mm/.9 var(--numf); white-space: nowrap; }
 .num .u { font-size: .48em; margin-left: .3mm; vertical-align: .62em; }
 .num .u.pre { margin: 0 .4mm 0 0; }
 .num .sg { font: 600 .7em/1 var(--sans); vertical-align: .08em; margin-right: .4mm; }
@@ -56,7 +56,7 @@ body { padding: 8px 0; }
 .cl .ax { stroke: var(--ink); stroke-width: .25; } .cl .tk { stroke: var(--ink); stroke-width: .2; }
 .cl .t { font: 400 3.2px var(--sans); fill: var(--ink2); }
 .cl .ar { fill: var(--key); fill-opacity: .14; } .cl .ln { fill: none; stroke: var(--key); stroke-width: .55; stroke-linejoin: round; } .cl .pk { fill: var(--key); }
-.cl .lb { font: 500 3.2px var(--sans); fill: var(--ink); } .cl .lb .b { font: 400 4.4px var(--numf); fill: var(--key-d); } .cl .lb.s { fill: var(--ink2); }
+.cl .lb { font: 500 3.2px var(--sans); fill: var(--ink); } .cl .lb .b { font: var(--numw, 400) 4.4px var(--numf); fill: var(--key-d); } .cl .lb.s { fill: var(--ink2); }
 /* 점 배열 */
 .wafw { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3mm; align-items: start; }
 .waf { display: grid; grid-template-columns: repeat(10, 2mm); gap: .56mm; }

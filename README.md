@@ -28,12 +28,20 @@ Data Bite 주간 덱(HTML)을 **한 장짜리 인포그래픽**(HTML 단일 파�
 | `stack` | 100% 구성 한 줄 |
 | `multi` | 한 항목에 차트 두 개 |
 
+## 글꼴
+
+- 글꼴 조합 3가지(assets/fonts.json): A Anton + Noto Sans KR(견본) · B Oswald + IBM Plex Sans KR · C Bebas Neue + Gothic A1.
+- 처음 한 번 `scripts/variants.py` 로 세 안을 같은 내용으로 그려 비교하고, 고른 조합을 `render.py --fonts` 로 고정합니다.
+- 글꼴은 쓰인 글자만 잘라 HTML 에 넣습니다. Google Fonts API 가 막힌 곳(회사 망 등)에서는 구글 폰트 원본을 GitHub · jsDelivr 에서 내려받아 직접 자릅니다(`pip install fonttools brotli`). 받은 파일은 캐시에 남습니다.
+
+![글꼴 비교](examples/out/fonts-compare.png)
+
 ## 설치
 
 ```bash
 git clone https://github.com/happy4ed/dataBite-infographics ~/.claude/skills/databite-infographic
 cd ~/.claude/skills/databite-infographic && npm i && npx playwright install chromium
-pip install pillow
+pip install pillow fonttools brotli
 ```
 
 ## 쓰는 법
@@ -50,7 +58,7 @@ node scripts/export.mjs out/DataBite_W01.html                    # PNG(3배) + �
 
 - 검수는 요약만 봅니다: 원본 장표 타이틀의 뜻을 살렸는지, 크게 쓴 숫자 · 키워드가 그 타이틀을 받치는지, 모든 숫자가 원본에 있는지.
 - 크게 쓰는 자리는 타이틀을 받치는 근거 숫자가 있을 때만 숫자, 없으면 핵심 키워드입니다.
-- 그림은 선택입니다. [gpt-image 스킬](https://github.com/GENEXIS-AI/gpt-image-skill)(ChatGPT 구독)로 `scripts/illjobs.py` 작업 파일을 돌립니다. 한도 초과 등으로 안 되면 그림 없이 완성합니다.
+- 그림은 선택입니다. 기기 · 앱 · 아이콘은 먼저 실제 제품을 검색해 모양 특징을 영어로 요약(`illust.ref.notes`)하고, 그 요약을 화풍 문장과 합쳐 [gpt-image 스킬](https://github.com/GENEXIS-AI/gpt-image-skill)(ChatGPT 구독)로 그립니다. 이미지 파일을 따라 그리지는 않습니다. 한도 초과 등으로 안 되면 그림 없이 완성합니다.
 - 로고는 리포에 없습니다. `--logo 파일` 로 넣습니다.
 
 ## 구성
@@ -61,7 +69,9 @@ references/SCHEMA.md     명세 형식과 요약 원칙
 assets/style.css         견본 스타일(고정)
 scripts/extract.py       덱 HTML → 장표 텍스트
 scripts/check_spec.py    명세 검수(숫자 원본 대조 · 문구 규칙 · 대조표)
-scripts/illjobs.py       그림 작업 파일(gpt-image 배치)
+scripts/illjobs.py       그림 작업 파일(화풍 + 대상 + 실제 모양 요약 → gpt-image 배치)
+scripts/variants.py      글꼴 조합 비교 페이지
+assets/fonts.json        글꼴 조합과 원본 파일 위치
 scripts/render.py        명세 → HTML(그림 · 글꼴 내장)
 scripts/export.mjs       HTML → PNG · 길이 · 넘침 점검
 examples/                가상 예시 덱 · 명세 · 결과

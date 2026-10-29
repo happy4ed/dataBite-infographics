@@ -32,9 +32,17 @@ node    $SK/scripts/export.mjs out/DataBite_W<주차>.html           # 5. PNG(3�
 - 크게 쓰는 자리(`hero`)는 타이틀을 직접 받치는 근거 숫자가 있을 때만 숫자, 없거나 약하면 핵심 키워드. 표본 수 · 날짜 · 가격처럼 타이틀 주장을 받치지 않는 숫자는 크게 쓰지 않는다.
 - `check_spec.py` 가 숫자 원본 대조 · 문구 규칙을 자동으로 본다. 끝에 나오는 **대조표**(원본 타이틀 ↔ 제목 ↔ 크게)를 읽고 뜻이 바뀐 항목만 고친다. 이것이 검수의 전부다.
 
+## 3.5 글꼴 고르기 (처음 한 번 · 사용자 확인)
+
+- 처음 만들 때(또는 사용자가 글꼴을 바꾸자고 할 때) `python3 $SK/scripts/variants.py spec.json out/fonts` 로 글꼴 조합 3안(assets/fonts.json)을 같은 명세로 그려 `fonts-compare.html` 을 보여 준다.
+- **사용자가 고를 때까지 최종 렌더로 넘어가지 않는다.** 고른 조합은 이후 모든 주차에 `render.py --fonts <조합>` 으로 고정하고 다시 묻지 않는다(기본 = anton-noto, 견본).
+- 글꼴 크기 · 색 · 배치는 조합과 상관없이 같다.
+
 ## 4. 그림 (선택)
 
-- `gpt-image` 스킬(ChatGPT 구독 · Codex CLI)로 `illjobs.py` 가 만든 작업 파일을 한 번에 돌린다:
+- **먼저 실제 모습을 찾는다.** 그릴 대상이 기기 · 앱 · 앱 아이콘(`illust.kind` = device · app · icon)이면 항목마다 WebSearch 로 그 제품 · 앱의 공식 페이지나 리뷰 사진을 찾아, 눈에 띄는 모양 특징(형태 · 비율 · 카메라 · 버튼 배치 · 화면 구성 · 색)을 영어 1~2문장으로 `illust.ref.notes` 에, 출처 URL 을 `illust.ref.source` 에 적는다. `check_spec.py` 는 이게 없으면 오류로 멈춘다.
+  - 이미지 파일을 내려받아 참조 입력으로 넣거나 그대로 따라 그리지 않는다(저작권 · 로고). 특징을 글로 요약해 화풍대로 새로 그리게 한다.
+- `illjobs.py` 가 화풍 문장 + 대상 + 특징 요약으로 프롬프트를 만든다. `gpt-image` 스킬(ChatGPT 구독 · Codex CLI)로 한 번에 돌린다:
   `node <gpt-image 스킬>/scripts/gpt_image.mjs batch --manifest jobs.json --concurrency 4`
 - **ChatGPT 이미지 생성이 한도 초과 · 로그인 문제 · 설치 안 됨 · 오류로 안 되면, 그림 생성을 그만두고 그림 없이 인포그래픽을 끝까지 완성한다.** 재시도 · 다른 이미지 생성기 · API 로 우회하지 않는다. `render.py` 는 그림 파일이 없는 항목을 그림 없이 그린다(일부만 성공해도 그대로 진행).
 - 작업 파일(jobs.json)은 명령을 실행하는 현재 폴더 안에 둔다(gpt-image 가 작업 폴더 밖 파일을 거부).
@@ -51,5 +59,6 @@ node    $SK/scripts/export.mjs out/DataBite_W<주차>.html           # 5. PNG(3�
 
 ## 준비물
 
-- Python 3 + Pillow, Node 18+ + `playwright`(`npm i` — 이 폴더의 package.json), 인터넷(글꼴 첫 내려받기 · 이후 `~/.cache/databite-infographics` 캐시).
+- Python 3 + Pillow, Node 18+ + `playwright`(`npm i` — 이 폴더의 package.json).
+- **글꼴 자동 준비.** `render.py` 가 쓰인 글자만 잘라 HTML 에 넣는다. 1) Google Fonts API 로 받고, 2) API 가 막혔으면(회사 망 등) 구글 폰트 원본 TTF 를 GitHub · jsDelivr 에서 내려받아 `fontTools` 로 직접 자른다. 2) 에는 `pip install fonttools brotli` 가 필요하다(없으면 그 사실을 알리고 시스템 글꼴로 그림). 받은 파일은 `~/.cache/databite-infographics` 에 남아 다음부터 인터넷 없이도 쓴다.
 - 로고는 리포에 넣지 않는다. 쓰려면 `--logo` 로 경로를 준다.

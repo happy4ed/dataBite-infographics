@@ -6,7 +6,7 @@
 
 사용: python3 render.py spec.json out.html [--illust DIR] [--logo logo.png] [--kicker "TEAM · WEEKLY"] [--footer TEXT]
 """
-import argparse, base64, hashlib, html, io, json, math, os, re, subprocess, urllib.parse
+import argparse, base64, hashlib, html, io, json, math, os, re, subprocess, sys, urllib.parse
 from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -134,26 +134,60 @@ def layout(items):   # 명세 순서대로: 띠가 필요한 항목은 혼자, �
         else: rows.append([i]); i += 1
     return rows
 
-def fonts_css(page_text):
+FONTSETS = json.load(open(os.path.join(HERE, '..', 'assets', 'fonts.json'), encoding='utf-8'))
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+SOURCES = ['https://raw.githubusercontent.com/google/fonts/main/', 'https://cdn.jsdelivr.net/gh/google/fonts@main/']   # 구글 폰트 원본(OFL) — 앞이 막히면 다음
+
+def fonts_css(page_text, fs):
+    """쓰인 글자만 잘라 base64 로 내장한 @font-face. 1) Google Fonts API(글자 잘라 줌) → 2) 원본 글꼴 파일을 내려받아 fontTools 로 직접 자름."""
     chars = ''.join(sorted(set(page_text + 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%$+-.,·()/:○●~→') - set('\n\r\t')))
-    os.makedirs(CACHE, exist_ok=True); key = hashlib.sha1(chars.encode()).hexdigest()[:16]; cf = f'{CACHE}/{key}.css'
+    os.makedirs(CACHE, exist_ok=True); key = hashlib.sha1((chars + json.dumps(fs, sort_keys=True)).encode()).hexdigest()[:16]; cf = f'{CACHE}/{key}.css'
     if os.path.exists(cf): return open(cf).read()
-    UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
-    q = 'https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+KR:wght@400;500;600;700&display=block&text=' + urllib.parse.quote(chars)
-    css = subprocess.run(['curl', '-sf', '-A', UA, q], capture_output=True, text=True).stdout
-    if not css: return ''   # 인터넷이 없으면 시스템 글꼴로(Noto Sans KR 설치 권장)
-    def embed(m):
-        fn = f'{CACHE}/{hashlib.sha1(m.group(1).encode()).hexdigest()[:16]}.woff2'
-        if not os.path.exists(fn): subprocess.run(['curl', '-sf', '-A', UA, '-o', fn, m.group(1)])
-        return 'url(data:font/woff2;base64,' + base64.b64encode(open(fn, 'rb').read()).decode() + ')'
-    css = re.sub(r'\s*unicode-range:[^;]+;', '', re.sub(r'url\((https://fonts\.gstatic\.com/[^)]+)\)', embed, css))
-    open(cf, 'w').write(css); return css
+    q = f"https://fonts.googleapis.com/css2?family={fs['num']['google']}&family={fs['sans']['google']}&display=block&text=" + urllib.parse.quote(chars)
+    css = '' if os.environ.get('DATABITE_FONT_API') == 'off' else subprocess.run(['curl', '-sf', '-m', '20', '-A', UA, q], capture_output=True, text=True).stdout   # off = API 막힌 환경 시험
+    if css and 'fonts.gstatic.com' in css:
+        def embed(m):
+            fn = f'{CACHE}/{hashlib.sha1(m.group(1).encode()).hexdigest()[:16]}.woff2'
+            if not os.path.exists(fn): subprocess.run(['curl', '-sf', '-m', '30', '-A', UA, '-o', fn, m.group(1)])
+            return 'url(data:font/woff2;base64,' + base64.b64encode(open(fn, 'rb').read()).decode() + ')'
+        css = re.sub(r'\s*unicode-range:[^;]+;', '', re.sub(r'url\((https://fonts\.gstatic\.com/[^)]+)\)', embed, css))
+    else:
+        css = local_fonts(chars, fs)
+    if css: open(cf, 'w').write(css)
+    return css
+
+def local_fonts(chars, fs):
+    """API 가 막혔을 때: 원본 TTF 를 캐시에 내려받고(이미 있으면 재사용) 쓰인 글자만 잘라 내장."""
+    try:
+        from fontTools import subset as ftsub
+        from fontTools.ttLib import TTFont
+    except ImportError:
+        sys.stderr.write('[글꼴] Google Fonts 에 닿지 않고 fontTools 도 없어 글꼴을 내장하지 못함 — pip install fonttools brotli 후 다시 실행(지금은 시스템 글꼴)\n'); return ''
+    try: import brotli; flavor, mime = 'woff2', 'font/woff2'   # noqa: F401
+    except ImportError: flavor, mime = None, 'font/ttf'
+    out = []
+    for role in ('num', 'sans'):
+        f = fs[role]
+        for wt, path in f['files'].items():
+            dst = f"{CACHE}/src-{os.path.basename(path).replace('[', '_').replace(']', '_')}"
+            if not os.path.exists(dst):
+                for base in SOURCES:
+                    if subprocess.run(['curl', '-sfL', '-m', '120', '-A', UA, '-o', dst, base + urllib.parse.quote(path)]).returncode == 0 and os.path.getsize(dst) > 10000: break
+                    if os.path.exists(dst): os.remove(dst)
+            if not os.path.exists(dst): sys.stderr.write(f'[글꼴] 내려받기 실패: {path}\n'); continue
+            font = TTFont(dst); opt = ftsub.Options(); opt.flavor = flavor; opt.layout_features = ['*']
+            sub = ftsub.Subsetter(opt); sub.populate(text=chars); sub.subset(font)
+            b = io.BytesIO(); font.flavor = flavor; font.save(b)
+            out.append(f"@font-face {{ font-family: '{f['family']}'; font-weight: {wt}; font-display: block; src: url(data:{mime};base64,{base64.b64encode(b.getvalue()).decode()}); }}")
+    return '\n'.join(out)
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('spec'); ap.add_argument('out')
     ap.add_argument('--illust', help='그림 폴더(항목 id.png). 기본: 명세 옆 illust/W{week}/')
     ap.add_argument('--logo'); ap.add_argument('--kicker', default='WEEKLY'); ap.add_argument('--footer', default='Proprietary and Confidential')
+    ap.add_argument('--fonts', default='anton-noto', choices=list(FONTSETS), help='글꼴 조합(assets/fonts.json) — 사용자가 고른 것으로 고정')
     a = ap.parse_args(); S = json.load(open(a.spec, encoding='utf-8')); items = S['items']
+    global FS; FS = FONTSETS[a.fonts]
     illdir = a.illust or os.path.join(os.path.dirname(os.path.abspath(a.spec)), 'illust', f"W{S['week']}")
     rows_html = ''
     for r in layout(items):
@@ -165,7 +199,8 @@ def main():
     week, period = esc(S['week']), esc(S.get('period', '').replace('–', '~'))
     page = f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data Bite {week}주차</title><style>/*FONTS*/
-{open(os.path.join(HERE, '..', 'assets', 'style.css'), encoding='utf-8').read()}</style></head><body>
+{open(os.path.join(HERE, '..', 'assets', 'style.css'), encoding='utf-8').read()}
+:root {{ --numf: "{FS['num']['family']}", "{FS['sans']['family']}", sans-serif; --sans: "{FS['sans']['family']}", system-ui, sans-serif; --numw: {FS['num']['weight']}; }}</style></head><body>
 <article class="sheet" aria-label="Data Bite {week}주차 인포그래픽">
 <header class="mast"><div class="m1"><span class="kicker">{esc(a.kicker)}</span><span class="wdb">Data Bite</span></div><div class="m2"><span class="wk">{week}<small>주차</small></span>{logo}<span class="mdate">{period}</span></div></header>
 <div class="body">{rows_html}</div>
@@ -177,7 +212,7 @@ s.style.zoom = Math.min(1.75, (document.documentElement.clientWidth - 24) / s.of
 addEventListener('resize', fit); document.fonts.ready.then(fit); fit(); }})();</script>
 </body></html>'''
     text = re.sub(r'<[^>]+>', ' ', re.sub(r'<(script|style)\b.*?</\1>', ' ', page, flags=re.S))
-    page = page.replace('/*FONTS*/', fonts_css(re.sub(r'data:[^"\s]+', '', html.unescape(text))))
+    page = page.replace('/*FONTS*/', fonts_css(re.sub(r'data:[^"\s]+', '', html.unescape(text)), FS))
     open(a.out, 'w', encoding='utf-8').write(page)
     print(json.dumps({'out': a.out, 'rows': layout(items), 'kb': len(page) // 1024}, ensure_ascii=False))
 

@@ -50,6 +50,9 @@ for it in items:
             if not num_ok(h['value']): errs.append(f'{i} hero 숫자가 원본에 없음: {h["value"]}')
             if norm(h['value']).lstrip('+') in norm(title): errs.append(f'{i} hero 숫자를 제목에서 반복')
         elif not 2 <= len(h.get('text', '')) <= 10: errs.append(f'{i} 키워드 {len(h.get("text", ""))}자(2~10자)')
+    il = it.get('illust') or {}
+    if il.get('kind') in ('device', 'app', 'icon') and not (il.get('ref') or {}).get('notes'):
+        errs.append(f"{i} 그림 레퍼런스 없음 — 실제 기기 · 앱을 검색해 illust.ref.notes(모양 특징 영어 1~2문장) · ref.source(출처 URL)를 채울 것")
     c = it.get('chart') or {}
     for sub in (c.get('charts', []) if c.get('type') == 'multi' else [c]):
         if sub.get('type') == 'bars' and len(sub.get('rows', [])) > 6: errs.append(f'{i} 막대 {len(sub["rows"])}행(6행까지)')

@@ -38,6 +38,7 @@
 - `kicker`: 주제 · 출처 종류를 짧게(22자 이내, 예: "폴더블 · VOC").
 - `chips`: 최대 3개, 각 8자 이내. 필요 없으면 [].
 - `illust.kind`: device · app · icon · symbol. `subject` 는 영어 한 문장, 그릴 대상만(스타일 말 · 로고 · 상표 · 글자 금지).
+- `illust.ref`(device · app · icon 이면 필수): 실제 제품 · 앱을 검색해 얻은 모양 특징. `notes` = 영어 1~2문장(형태 · 비율 · 카메라 · 버튼 배치 · 화면 구성 · 색), `source` = 출처 URL. 예: `{ "notes": "Book-style foldable opened flat, near-square inner screen with a faint center crease", "source": "https://…" }`. 로고 · 글자는 적지 않는다.
 
 ## 차트 종류
 - `line`: 시간 추이. `x` · `y` · `unit` · `labels`(최대 2개, `i` = 인덱스, `text`).
