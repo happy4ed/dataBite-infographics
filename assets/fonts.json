@@ -1,17 +1,87 @@
 {
   "anton-noto": {
     "label": "A · Anton + Noto Sans KR (견본)",
-    "num": { "family": "Anton", "weight": 400, "google": "Anton", "files": { "400": "ofl/anton/Anton-Regular.ttf" } },
-    "sans": { "family": "Noto Sans KR", "google": "Noto+Sans+KR:wght@400;500;600;700", "files": { "100 900": "ofl/notosanskr/NotoSansKR[wght].ttf" } }
+    "num": {
+      "family": "Anton",
+      "weight": 400,
+      "google": "Anton",
+      "files": {
+        "400": "ofl/anton/Anton-Regular.ttf"
+      },
+      "ksx": {
+        "400": "ksx/Anton-400.woff2"
+      }
+    },
+    "sans": {
+      "family": "Noto Sans KR",
+      "google": "Noto+Sans+KR:wght@400;500;600;700",
+      "files": {
+        "100 900": "ofl/notosanskr/NotoSansKR[wght].ttf"
+      },
+      "ksx": {
+        "100 900": "ksx/NotoSansKR-100-900.woff2"
+      }
+    }
   },
   "oswald-plex": {
     "label": "B · Oswald + IBM Plex Sans KR",
-    "num": { "family": "Oswald", "weight": 600, "google": "Oswald:wght@600", "files": { "200 700": "ofl/oswald/Oswald[wght].ttf" } },
-    "sans": { "family": "IBM Plex Sans KR", "google": "IBM+Plex+Sans+KR:wght@400;500;600;700", "files": { "400": "ofl/ibmplexsanskr/IBMPlexSansKR-Regular.ttf", "500": "ofl/ibmplexsanskr/IBMPlexSansKR-Medium.ttf", "600": "ofl/ibmplexsanskr/IBMPlexSansKR-SemiBold.ttf", "700": "ofl/ibmplexsanskr/IBMPlexSansKR-Bold.ttf" } }
+    "num": {
+      "family": "Oswald",
+      "weight": 600,
+      "google": "Oswald:wght@600",
+      "files": {
+        "200 700": "ofl/oswald/Oswald[wght].ttf"
+      },
+      "ksx": {
+        "200 700": "ksx/Oswald-200-700.woff2"
+      }
+    },
+    "sans": {
+      "family": "IBM Plex Sans KR",
+      "google": "IBM+Plex+Sans+KR:wght@400;500;600;700",
+      "files": {
+        "400": "ofl/ibmplexsanskr/IBMPlexSansKR-Regular.ttf",
+        "500": "ofl/ibmplexsanskr/IBMPlexSansKR-Medium.ttf",
+        "600": "ofl/ibmplexsanskr/IBMPlexSansKR-SemiBold.ttf",
+        "700": "ofl/ibmplexsanskr/IBMPlexSansKR-Bold.ttf"
+      },
+      "embed": "DataBite Sans B",
+      "ksx": {
+        "400": "ksx/DataBiteSansB-400.woff2",
+        "500": "ksx/DataBiteSansB-500.woff2",
+        "600": "ksx/DataBiteSansB-600.woff2",
+        "700": "ksx/DataBiteSansB-700.woff2"
+      }
+    }
   },
   "bebas-gothic": {
     "label": "C · Bebas Neue + Gothic A1",
-    "num": { "family": "Bebas Neue", "weight": 400, "google": "Bebas+Neue", "files": { "400": "ofl/bebasneue/BebasNeue-Regular.ttf" } },
-    "sans": { "family": "Gothic A1", "google": "Gothic+A1:wght@400;500;600;700", "files": { "400": "ofl/gothica1/GothicA1-Regular.ttf", "500": "ofl/gothica1/GothicA1-Medium.ttf", "600": "ofl/gothica1/GothicA1-SemiBold.ttf", "700": "ofl/gothica1/GothicA1-Bold.ttf" } }
+    "num": {
+      "family": "Bebas Neue",
+      "weight": 400,
+      "google": "Bebas+Neue",
+      "files": {
+        "400": "ofl/bebasneue/BebasNeue-Regular.ttf"
+      },
+      "ksx": {
+        "400": "ksx/BebasNeue-400.woff2"
+      }
+    },
+    "sans": {
+      "family": "Gothic A1",
+      "google": "Gothic+A1:wght@400;500;600;700",
+      "files": {
+        "400": "ofl/gothica1/GothicA1-Regular.ttf",
+        "500": "ofl/gothica1/GothicA1-Medium.ttf",
+        "600": "ofl/gothica1/GothicA1-SemiBold.ttf",
+        "700": "ofl/gothica1/GothicA1-Bold.ttf"
+      },
+      "ksx": {
+        "400": "ksx/GothicA1-400.woff2",
+        "500": "ksx/GothicA1-500.woff2",
+        "600": "ksx/GothicA1-600.woff2",
+        "700": "ksx/GothicA1-700.woff2"
+      }
+    }
   }
 }

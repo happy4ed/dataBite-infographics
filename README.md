@@ -32,7 +32,9 @@ Data Bite 주간 덱(HTML)을 **한 장짜리 인포그래픽**(HTML 단일 파�
 
 - 글꼴 조합 3가지(assets/fonts.json): A Anton + Noto Sans KR(견본) · B Oswald + IBM Plex Sans KR · C Bebas Neue + Gothic A1.
 - 처음 한 번 `scripts/variants.py` 로 세 안을 같은 내용으로 그려 비교하고, 고른 조합을 `render.py --fonts` 로 고정합니다.
-- 글꼴은 쓰인 글자만 잘라 HTML 에 넣습니다. Google Fonts API 가 막힌 곳(회사 망 등)에서는 구글 폰트 원본을 GitHub · jsDelivr 에서 내려받아 직접 자릅니다(`pip install fonttools brotli`). 받은 파일은 캐시에 남습니다.
+- **글꼴 파일을 리포에 동봉**했습니다(`assets/fonts`, 모두 OFL 1.1 · 라이선스 문서 포함 — [목록과 조건](assets/fonts/README.md)). 인터넷이 막힌 곳에서도 그대로 씁니다.
+  - `fontTools` 가 있으면 동봉 원본에서 쓰인 글자만 잘라 넣고, 없으면 미리 잘라 둔 「한글 2,350자」 파일을 넣습니다(pip 도 막힌 PC 대비).
+  - IBM Plex 는 OFL 예약 이름 규칙 때문에 잘라 넣을 때 이름을 「DataBite Sans B」 로 바꿉니다.
 
 ![글꼴 비교](examples/out/fonts-compare.png)
 

@@ -60,5 +60,5 @@ node    $SK/scripts/export.mjs out/DataBite_W<주차>.html           # 5. PNG(3�
 ## 준비물
 
 - Python 3 + Pillow, Node 18+ + `playwright`(`npm i` — 이 폴더의 package.json).
-- **글꼴 자동 준비.** `render.py` 가 쓰인 글자만 잘라 HTML 에 넣는다. 1) Google Fonts API 로 받고, 2) API 가 막혔으면(회사 망 등) 구글 폰트 원본 TTF 를 GitHub · jsDelivr 에서 내려받아 `fontTools` 로 직접 자른다. 2) 에는 `pip install fonttools brotli` 가 필요하다(없으면 그 사실을 알리고 시스템 글꼴로 그림). 받은 파일은 `~/.cache/databite-infographics` 에 남아 다음부터 인터넷 없이도 쓴다.
+- **글꼴은 리포에 동봉**(`assets/fonts`, 모두 OFL 1.1). `render.py` 가 쓰인 글자만 잘라 HTML 에 넣는다: 1) `fontTools` 가 있으면 동봉 원본에서 자름, 2) 없으면 미리 자른 「한글 2,350자」 파일(`assets/fonts/ksx`)을 그대로, 3) 동봉 파일이 없을 때만 Google Fonts → 원본 내려받기. 인터넷 · pip 가 막힌 PC 에서도 1·2 로 끝난다. IBM Plex 는 OFL 예약 이름 때문에 잘라 넣을 때 「DataBite Sans B」 로 이름을 바꾼다 — 이 규칙을 지우지 않는다.
 - 로고는 리포에 넣지 않는다. 쓰려면 `--logo` 로 경로를 준다.
